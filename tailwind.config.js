@@ -14,6 +14,11 @@ export default {
         copperDim: '#8A5429',
         teal: '#4FB6A8',
         danger: '#C1554A',
+
+        // Priority badges (جديد)
+        'priority-haute': '#C1554A',
+        'priority-moyenne': '#C97A3D',
+        'priority-basse': '#8B9099',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

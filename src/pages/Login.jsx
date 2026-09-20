@@ -32,10 +32,10 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center bg-base px-4 py-8">
       <div className="w-full max-w-sm">
         <div className="flex items-center gap-3 mb-10">
-          <div className="w-10 h-10 rounded bg-copper/15 border border-copper/40 flex items-center justify-center">
+          <div className="w-10 h-10 rounded bg-copper/15 border border-copper/40 flex items-center justify-center shrink-0">
             <CircuitBoard size={20} className="text-copper" strokeWidth={1.75} />
           </div>
           <div>
@@ -52,7 +52,7 @@ export default function Login() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-panel border border-line rounded px-3 py-2.5 text-ink text-sm placeholder:text-muted/60 focus:border-copper transition-colors"
+              className="w-full bg-panel border border-line rounded px-3 py-2.5 text-ink text-sm placeholder:text-muted/60 focus:border-copper focus:outline-none transition-colors"
               placeholder="vous@boutique.ma"
             />
           </div>
@@ -64,7 +64,7 @@ export default function Login() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-panel border border-line rounded px-3 py-2.5 text-ink text-sm placeholder:text-muted/60 focus:border-copper transition-colors"
+              className="w-full bg-panel border border-line rounded px-3 py-2.5 text-ink text-sm placeholder:text-muted/60 focus:border-copper focus:outline-none transition-colors"
               placeholder="••••••••"
             />
           </div>
@@ -78,7 +78,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-copper hover:bg-copper/90 disabled:opacity-50 text-base font-medium text-sm rounded px-3 py-2.5 transition-colors"
+            className="w-full bg-copper hover:bg-copper/90 disabled:opacity-50 font-medium text-sm rounded px-3 py-2.5 transition-colors text-base"
           >
             {loading ? 'Connexion…' : 'Se connecter'}
           </button>

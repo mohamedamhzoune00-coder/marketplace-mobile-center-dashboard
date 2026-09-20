@@ -8,9 +8,15 @@ export default function Signalements() {
   const [loading, setLoading] = useState(true)
 
   async function load() {
-    const { data } = await api.get('/signalements')
-    setSignalements(data.data || [])
-    setLoading(false)
+    setLoading(true)
+    try {
+      const { data } = await api.get('/signalements')
+      setSignalements(data.data || [])
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
@@ -18,8 +24,12 @@ export default function Signalements() {
   }, [])
 
   async function updateStatut(id, statut) {
-    await api.put(`/signalements/${id}`, { statut })
-    load()
+    try {
+      await api.put(`/signalements/${id}`, { statut })
+      load()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
