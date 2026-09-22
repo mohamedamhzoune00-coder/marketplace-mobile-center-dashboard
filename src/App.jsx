@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
+import StoreFront from "./pages/StoreFront";
 import DashboardHome from "./pages/DashboardHome";
 import Boutique from "./pages/Boutique";
 import Produits from "./pages/Produits";
@@ -24,9 +25,15 @@ function AppRoutes() {
 
   return (
     <Routes>
+      {/* Page Visiteur (Storefront Publique) */}
+      <Route path="/" element={<StoreFront />} />
+
+      {/* Authentification */}
       <Route path="/login" element={<Login />} />
+
+      {/* Dashboard Protégé */}
       <Route
-        path="/"
+        path="/dashboard"
         element={
           <Protected>
             <DashboardHome />

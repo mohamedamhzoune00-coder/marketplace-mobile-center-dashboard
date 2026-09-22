@@ -15,21 +15,24 @@ import {
 } from 'lucide-react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import ChatbotWidget from './ChatbotWidget'
 
 const vendeurLinks = [
-  { to: '/', label: 'Vue générale', icon: LayoutGrid },
+  { to: '/dashboard', label: 'Vue générale', icon: LayoutGrid },
   { to: '/boutique', label: 'Ma boutique', icon: Store },
   { to: '/produits', label: 'Produits', icon: Package },
   { to: '/demandes', label: 'Demandes', icon: ClipboardList },
   { to: '/horaires', label: 'Horaires', icon: Clock },
+  { to: '/', label: 'Voir le Store (Client)', icon: Store },
 ]
 
 const adminLinks = [
-  { to: '/', label: 'Vue générale', icon: LayoutGrid },
+  { to: '/dashboard', label: 'Vue générale', icon: LayoutGrid },
   { to: '/boutiques', label: 'Boutiques', icon: Store },
   { to: '/categories-admin', label: 'Catégories', icon: FolderTree },
   { to: '/signalements', label: 'Signalements', icon: ShieldAlert },
   { to: '/journaux-audit', label: 'Journaux', icon: ScrollText },
+  { to: '/', label: 'Voir le Store (Client)', icon: Store },
 ]
 
 export default function Layout({ children }) {
@@ -103,7 +106,7 @@ export default function Layout({ children }) {
             <NavLink
               key={to}
               to={to}
-              end={to === '/'}
+              end={to === '/dashboard' || to === '/'}
               onClick={closeMenu}
               className={({ isActive }) =>
                 `flex items-center gap-2.5 px-3 py-2.5 rounded text-sm transition-colors ${
@@ -170,6 +173,9 @@ export default function Layout({ children }) {
           </div>
         </main>
       </div>
+
+      {/* Chatbot Karim Bot - Stylé Cyberpunk / Glassmorphism */}
+      <ChatbotWidget />
     </div>
   )
 }

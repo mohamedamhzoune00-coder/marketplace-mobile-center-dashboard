@@ -18,7 +18,7 @@ export default function Login() {
     try {
       const user = await login(email, password)
       if (user.role === 'vendeur' || user.role === 'super_admin') {
-        navigate('/')
+        navigate('/dashboard')
       } else {
         setError("Ce compte n'a pas accès à la console.")
       }
