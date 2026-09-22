@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import StoreFront from "./pages/StoreFront";
+import BoutiquePage from "./pages/BoutiquePage";
 import DashboardHome from "./pages/DashboardHome";
 import Boutique from "./pages/Boutique";
 import Produits from "./pages/Produits";
@@ -25,8 +26,9 @@ function AppRoutes() {
 
   return (
     <Routes>
-      {/* Page Visiteur (Storefront Publique) */}
+      {/* Pages publiques visiteur */}
       <Route path="/" element={<StoreFront />} />
+      <Route path="/boutique/:id" element={<BoutiquePage />} />
 
       {/* Authentification */}
       <Route path="/login" element={<Login />} />

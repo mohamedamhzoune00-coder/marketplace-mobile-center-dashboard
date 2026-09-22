@@ -290,42 +290,83 @@ export default function StoreFront() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {boutiques.slice(0, 4).map((b) => {
-                const isSelected = String(selectedBoutique) === String(b.id)
+              {boutiques.slice(0, 8).map((b, idx) => {
+                // ألوان gradient مخصصة ila ma kandch logo
+                const gradients = [
+                  'from-cyan-900/90 to-slate-900/90',
+                  'from-violet-900/90 to-slate-900/90',
+                  'from-emerald-900/90 to-slate-900/90',
+                  'from-orange-900/90 to-slate-900/90',
+                  'from-rose-900/90 to-slate-900/90',
+                  'from-sky-900/90 to-slate-900/90',
+                  'from-teal-900/90 to-slate-900/90',
+                  'from-amber-900/90 to-slate-900/90',
+                ]
+                const gradient = gradients[idx % gradients.length]
+                const logoUrl = b.logo
+                  ? `http://127.0.0.1:8000/storage/${b.logo}`
+                  : null
+
                 return (
-                  <button
+                  <Link
                     key={b.id}
-                    type="button"
-                    onClick={() =>
-                      setSelectedBoutique(isSelected ? 'all' : String(b.id))
-                    }
-                    className={`text-left p-4 rounded-2xl border transition-all duration-300 relative group overflow-hidden ${
-                      isSelected
-                        ? 'bg-cyan-950/60 border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.4)]'
-                        : 'bg-[#0F172A]/70 border-cyan-500/20 hover:border-cyan-400/50 hover:bg-[#131F37]/70'
-                    }`}
+                    to={`/boutique/${b.id}`}
+                    className="relative rounded-2xl border border-cyan-500/20 overflow-hidden group hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all duration-300 h-48 flex flex-col justify-end cursor-pointer"
                   >
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-500/30 flex items-center justify-center font-bold text-cyan-400 text-sm">
-                        {b.nom?.slice(0, 2).toUpperCase()}
+                    {/* Background: logo ou gradient */}
+                    {logoUrl ? (
+                      <div
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                        style={{ backgroundImage: `url(${logoUrl})` }}
+                      />
+                    ) : (
+                      <div className={`absolute inset-0 bg-gradient-to-br ${gradient}`}>
+                        {/* Initiales géantes en arrière-plan */}
+                        <span className="absolute inset-0 flex items-center justify-center text-8xl font-black text-white/5 select-none pointer-events-none">
+                          {b.nom?.slice(0, 2).toUpperCase()}
+                        </span>
+                        {/* Motif circuit */}
+                        <div className="absolute inset-0 bg-[radial-gradient(#00F0FF_1px,transparent_1px)] [background-size:20px_20px] opacity-[0.06]" />
                       </div>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-400/40 text-emerald-300">
+                    )}
+
+                    {/* Overlay gradient sombre en bas */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0D14]/95 via-[#0A0D14]/40 to-transparent" />
+
+                    {/* Badge statut haut à droite */}
+                    <div className="absolute top-3 right-3 z-10">
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-400/50 text-emerald-300 shadow-[0_0_8px_rgba(52,211,153,0.3)]">
                         مفتوح الآن
                       </span>
                     </div>
 
-                    <h3 className="font-bold text-white text-base truncate group-hover:text-cyan-300 transition-colors">
-                      {b.nom}
-                    </h3>
-                    <p className="text-xs text-slate-400 flex items-center gap-1 mt-1 truncate">
-                      <MapPin size={12} className="text-cyan-400 shrink-0" />
-                      <span>{b.emplacement || 'Étage 1 • Mobile Center'}</span>
-                    </p>
-                    <p className="text-xs text-cyan-200/80 flex items-center gap-1 mt-1">
-                      <Phone size={12} className="text-cyan-400 shrink-0" />
-                      <span>{b.telephone || '0600-000000'}</span>
-                    </p>
-                  </button>
+                    {/* Logo avatar haut à gauche */}
+                    <div className="absolute top-3 left-3 z-10">
+                      <div className="w-10 h-10 rounded-xl bg-[#0A0D14]/80 border border-cyan-400/50 flex items-center justify-center font-bold text-cyan-300 text-sm backdrop-blur-sm shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                        {b.nom?.slice(0, 2).toUpperCase()}
+                      </div>
+                    </div>
+
+                    {/* Contenu bas de carte */}
+                    <div className="relative z-10 p-4">
+                      <h3 className="font-bold text-white text-base truncate group-hover:text-cyan-300 transition-colors">
+                        {b.nom}
+                      </h3>
+                      <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5 truncate">
+                        <MapPin size={11} className="text-cyan-400 shrink-0" />
+                        <span>{b.emplacement || 'Étage 1 • Mobile Center'}</span>
+                      </p>
+                      <p className="text-xs text-cyan-200/70 flex items-center gap-1 mt-0.5">
+                        <Phone size={11} className="text-cyan-400 shrink-0" />
+                        <span>{b.telephone || '0600-000000'}</span>
+                      </p>
+                      {/* CTA */}
+                      <div className="mt-2 flex items-center gap-1 text-cyan-400 text-xs font-semibold group-hover:gap-2 transition-all">
+                        <span>عرض المنتجات</span>
+                        <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </Link>
                 )
               })}
             </div>
