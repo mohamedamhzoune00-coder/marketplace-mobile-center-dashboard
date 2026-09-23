@@ -133,11 +133,26 @@ export default function ChatbotWidget() {
     }
   }, [isOpen])
 
+  // Écouteur d'événements bach it7al mn ay blasa (khososan mn bottom nav f telephone)
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true)
+    const handleToggle = () => setIsOpen((prev) => !prev)
+    const handleClose = () => setIsOpen(false)
+    window.addEventListener('open-chatbot', handleOpen)
+    window.addEventListener('toggle-chatbot', handleToggle)
+    window.addEventListener('close-chatbot', handleClose)
+    return () => {
+      window.removeEventListener('open-chatbot', handleOpen)
+      window.removeEventListener('toggle-chatbot', handleToggle)
+      window.removeEventListener('close-chatbot', handleClose)
+    }
+  }, [])
+
   const initWelcomeMessage = () => {
     setMessages([
       {
         role: 'assistant',
-        text: 'سلام! 👋 أنا Karim Bot، المساعد الذكي ديال Mobile Center مكناس.\nكيفاش نقدر نعاونك اليوم؟ سولي على التليفونات، البوتيكات، أو الإصلاح!',
+        text: 'سلام! 👋 أنا Smsar Bot 🤖، المساعد الذكي ديال Mobile Center مكناس.\nكيفاش نقدر نعاونك اليوم؟ سولي على التليفونات، البوتيكات، أو الإصلاح!',
       },
     ])
   }
@@ -200,12 +215,19 @@ export default function ChatbotWidget() {
   }
 
   return (
-    <aside aria-label="Karim Bot - Assistant IA" className="fixed bottom-6 right-6 z-50">
+    <aside
+      aria-label="Smsar Bot - Assistant IA"
+      className={`fixed z-50 transition-all ${
+        isOpen
+          ? 'bottom-20 inset-x-3 sm:inset-auto sm:bottom-6 sm:right-6 pointer-events-auto'
+          : 'bottom-6 right-6 pointer-events-auto'
+      }`}
+    >
       {/* Fenêtre dyal Chatbot (Glassmorphism & Cyber Glow) */}
       {isOpen && (
         <section
-          aria-label="Boîte de discussion Karim Bot"
-          className="relative mb-4 w-[calc(100vw-2rem)] sm:w-[390px] h-[550px] max-h-[82vh] flex flex-col rounded-3xl overflow-hidden border border-cyan-400/40 bg-[#0B111E]/90 backdrop-blur-2xl shadow-[0_0_40px_rgba(6,182,212,0.35)] transition-all duration-300 animate-in fade-in zoom-in-95"
+          aria-label="Boîte de discussion Smsar Bot"
+          className="relative w-full sm:w-[390px] h-[550px] max-h-[72vh] sm:max-h-[82vh] flex flex-col rounded-3xl overflow-hidden border border-cyan-400/40 bg-[#0B111E]/95 backdrop-blur-2xl shadow-[0_0_40px_rgba(6,182,212,0.35)] transition-all duration-300 animate-in fade-in zoom-in-95"
         >
           {/* Ligne néon lumineuse f l-fo9 */}
           <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_10px_#00F0FF]" />
@@ -220,10 +242,10 @@ export default function ChatbotWidget() {
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-white text-base font-bold tracking-wide">
-                    Karim Bot
+                    Smsar Bot
                   </h3>
                   <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-400/40 text-cyan-300 font-semibold shadow-[0_0_10px_rgba(6,182,212,0.2)]">
-                    IA مكناس
+                    سمسار مكناس
                   </span>
                 </div>
                 <p className="text-[11px] text-cyan-200/60 font-mono">
@@ -358,12 +380,13 @@ export default function ChatbotWidget() {
         </section>
       )}
 
-      {/* Bouton Flottant (Robot Avatar Futuriste li f jnab) */}
+      {/* Bouton Flottant (Robot Avatar Futuriste li f jnab) - Fa9at f PC (hidden sm:flex) */}
       {!isOpen && (
         <button
           type="button"
+          data-chatbot-toggle
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-3 p-2 pr-4 rounded-full bg-[#0B111E]/85 border-2 border-cyan-400/60 backdrop-blur-xl shadow-[0_0_30px_rgba(6,182,212,0.5)] hover:shadow-[0_0_40px_rgba(6,182,212,0.8)] hover:scale-105 transition-all duration-300 cursor-pointer"
+          className="group relative hidden sm:flex items-center gap-3 p-2 pr-4 rounded-full bg-[#0B111E]/85 border-2 border-cyan-400/60 backdrop-blur-xl shadow-[0_0_30px_rgba(6,182,212,0.5)] hover:shadow-[0_0_40px_rgba(6,182,212,0.8)] hover:scale-105 transition-all duration-300 cursor-pointer"
         >
           {/* Glowing Ring Animation */}
           <span className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-cyan-500 to-sky-500 opacity-30 group-hover:opacity-60 blur-sm transition-opacity" />
@@ -373,12 +396,12 @@ export default function ChatbotWidget() {
           <div className="relative text-left hidden sm:block">
             <div className="flex items-center gap-1.5">
               <span className="text-white text-xs font-bold tracking-wide">
-                Karim Bot
+                Smsar Bot
               </span>
               <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34D399]" />
             </div>
             <p className="text-[11px] text-cyan-300 font-medium">
-              سول الذكاء الاصطناعي ✨
+              سول سمسار الذكي ✨
             </p>
           </div>
         </button>

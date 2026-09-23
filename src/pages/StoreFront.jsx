@@ -705,20 +705,27 @@ export default function StoreFront() {
 
           {/* Semsar — bouton central */}
           <button
-            onClick={() => document.querySelector('[data-chatbot-toggle]')?.click()}
-            className="relative -top-4 p-3 rounded-full bg-gradient-to-tr from-cyan-400 via-cyan-300 to-blue-500 text-slate-950 shadow-[0_0_20px_rgba(0,242,254,0.6)] border-2 border-[#0b1019] hover:scale-110 active:scale-95 transition-transform"
+            type="button"
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('toggle-chatbot'))
+              document.querySelector('[data-chatbot-toggle]')?.click()
+            }}
+            className="relative -top-4 flex flex-col items-center group cursor-pointer"
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <line x1="12" y1="2" x2="12" y2="5" stroke="#070b12" strokeWidth="2" strokeLinecap="round"/>
-              <circle cx="12" cy="1.5" r="1" fill="#070b12"/>
-              <rect x="5" y="5" width="14" height="10" rx="3" fill="#070b12" stroke="#070b12" strokeWidth="0.5"/>
-              <circle cx="9" cy="10" r="1.5" fill="#00F0FF"/>
-              <circle cx="15" cy="10" r="1.5" fill="#00F0FF"/>
-              <path d="M9.5 13 Q12 15 14.5 13" stroke="#00F0FF" strokeWidth="1" strokeLinecap="round" fill="none"/>
-              <rect x="8" y="15" width="8" height="5" rx="1.5" fill="#070b12"/>
-            </svg>
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-[#0b1019] animate-ping" />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-[#0b1019]" />
+            <div className="p-3 rounded-full bg-gradient-to-tr from-cyan-400 via-cyan-300 to-blue-500 text-slate-950 shadow-[0_0_20px_rgba(0,242,254,0.6)] border-2 border-[#0b1019] group-hover:scale-110 group-active:scale-95 transition-transform relative">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <line x1="12" y1="2" x2="12" y2="5" stroke="#070b12" strokeWidth="2" strokeLinecap="round"/>
+                <circle cx="12" cy="1.5" r="1" fill="#070b12"/>
+                <rect x="5" y="5" width="14" height="10" rx="3" fill="#070b12" stroke="#070b12" strokeWidth="0.5"/>
+                <circle cx="9" cy="10" r="1.5" fill="#00F0FF"/>
+                <circle cx="15" cy="10" r="1.5" fill="#00F0FF"/>
+                <path d="M9.5 13 Q12 15 14.5 13" stroke="#00F0FF" strokeWidth="1" strokeLinecap="round" fill="none"/>
+                <rect x="8" y="15" width="8" height="5" rx="1.5" fill="#070b12"/>
+              </svg>
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-[#0b1019] animate-ping" />
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-[#0b1019]" />
+            </div>
+            <span className="text-[9px] font-mono text-cyan-300 font-bold mt-0.5">سمسار</span>
           </button>
 
           <button onClick={() => setActiveTab('cart')} className={`flex flex-col items-center gap-0.5 text-[10px] font-bold relative transition-colors ${activeTab === 'cart' ? 'text-cyan-400' : 'text-slate-500'}`}>
