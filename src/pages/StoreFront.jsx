@@ -479,14 +479,43 @@ export default function StoreFront() {
             <span className="text-[9px] font-mono text-cyan-300 mt-0.5">تسوق</span>
           </div>
 
-          {/* Chat */}
+          {/* Semsar — روبوت متحرك */}
           <button
             type="button"
             onClick={() => document.querySelector('[data-chatbot-toggle]')?.click()}
-            className="flex flex-col items-center gap-0.5 px-3 py-1 text-slate-400"
+            className="flex flex-col items-center gap-0.5 px-3 py-1 text-cyan-400 group"
           >
-            <MessageCircle size={22} />
-            <span className="text-[9px] font-mono">Chat</span>
+            {/* Robot SVG متحرك */}
+            <div className="relative">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="animate-bounce"
+                style={{ animationDuration: '1.2s' }}
+              >
+                {/* أنتين */}
+                <line x1="12" y1="2" x2="12" y2="5" stroke="#00F0FF" strokeWidth="1.5" strokeLinecap="round"/>
+                <circle cx="12" cy="1.5" r="1" fill="#00F0FF" className="animate-ping" style={{ animationDuration: '2s' }}/>
+                {/* رأس الروبوت */}
+                <rect x="5" y="5" width="14" height="10" rx="3" fill="#0A1628" stroke="#00F0FF" strokeWidth="1.2"/>
+                {/* عينين */}
+                <circle cx="9" cy="10" r="1.5" fill="#00F0FF"/>
+                <circle cx="15" cy="10" r="1.5" fill="#00F0FF"/>
+                {/* ابتسامة */}
+                <path d="M9.5 13 Q12 15 14.5 13" stroke="#00F0FF" strokeWidth="1" strokeLinecap="round" fill="none"/>
+                {/* جسم */}
+                <rect x="8" y="15" width="8" height="5" rx="1.5" fill="#0A1628" stroke="#00F0FF" strokeWidth="1"/>
+                {/* ساقين */}
+                <line x1="10" y1="20" x2="10" y2="23" stroke="#00F0FF" strokeWidth="1.5" strokeLinecap="round"/>
+                <line x1="14" y1="20" x2="14" y2="23" stroke="#00F0FF" strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+              {/* نقطة حمراء notification */}
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500 animate-ping" />
+              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-red-500" />
+            </div>
+            <span className="text-[9px] font-mono text-cyan-300 font-bold">سمسار</span>
           </button>
 
           {/* Account */}
