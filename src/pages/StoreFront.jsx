@@ -13,6 +13,7 @@ import {
   X,
   CheckCircle2,
   ChevronRight,
+  ChevronLeft,
   Smartphone,
   LayoutGrid,
   MessageCircle,
@@ -98,6 +99,58 @@ export default function StoreFront() {
   const [orderForm, setOrderForm] = useState({ nom_client: '', telephone_client: '', notes: '' })
   // Toast notification
   const [toast, setToast] = useState('')
+
+  // === HERO CAROUSEL SLIDER (WITANIME STYLE AUTO-PLAY) ===
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isSlidePaused, setIsSlidePaused] = useState(false)
+
+  const heroSlides = [
+    {
+      id: 's24',
+      badge: 'وصل حديثاً • NEW ARRIVALS',
+      badgeStyle: 'bg-cyan-950/80 border-cyan-400/40 text-cyan-300',
+      title: 'أكبر تجمع للهواتف والإلكترونيات ف مكناس',
+      series: 'S24 Series',
+      subtitle: 'Samsung Galaxy S24 Ultra مع قلم S-Pen وضمان معتمد بباب منصور',
+      price: '2,000 MAD',
+      buttonText: 'Shop now',
+      image: '/images/s24-banner.webp',
+      searchKey: 's24',
+    },
+    {
+      id: 'iphone',
+      badge: 'الأكثر طلباً • BEST SELLER',
+      badgeStyle: 'bg-emerald-950/80 border-emerald-400/40 text-emerald-300',
+      title: 'أقوى عروض iPhone الأصلية بضمان المحل',
+      series: 'iPhone 11 Pro',
+      subtitle: 'كاميرات احترافية، بطارية تدوم طويلاً، حالة ممتازة عند محلات Mobile Center',
+      price: '1,500 MAD',
+      buttonText: 'اكتشف العرض',
+      image: '/images/iphone-banner.jpg',
+      searchKey: 'iphone',
+    },
+    {
+      id: 'airpods',
+      badge: 'تخفيض خاص • PROMO GEAR',
+      badgeStyle: 'bg-violet-950/80 border-violet-400/40 text-violet-300',
+      title: 'إكسسوارات وسماعات عازلة للضوضاء',
+      series: 'AirPods Gear',
+      subtitle: 'صوت نقي، بطارية تدوم طويلاً، متوفرة حالياً بأفضل الأسعار بمكناس',
+      price: 'ابتداءً من 50 MAD',
+      buttonText: 'تسوق الصوتيات',
+      image: '/images/airpods-banner.jpg',
+      searchKey: 'airpods',
+    },
+  ]
+
+  // Auto-play timer (transitions every 4.5s like witanime)
+  useEffect(() => {
+    if (isSlidePaused) return
+    const timer = setInterval(() => {
+      setCurrentSlide(prev => (prev + 1) % heroSlides.length)
+    }, 4500)
+    return () => clearInterval(timer)
+  }, [isSlidePaused, heroSlides.length])
 
   // === FETCH DATA ===
   useEffect(() => {
@@ -305,70 +358,125 @@ export default function StoreFront() {
         {/* ==================== TAB: HOME ==================== */}
         {activeTab === 'home' && (
           <>
-            {/* HERO BANNER (S24 Series Banner - Style identique à l'image) */}
-            <div className="relative rounded-3xl overflow-hidden border border-cyan-500/30 bg-gradient-to-br from-[#0c1626] via-[#09111c] to-[#060a12] p-4 sm:p-7 shadow-[0_0_35px_rgba(6,182,212,0.18)]">
-              {/* Lueur néon en haut et fond */}
+            {/* HERO BANNER CAROUSEL (STYLE WITANIME - AUTO SLIDER PROMO) */}
+            <div
+              className="relative rounded-3xl overflow-hidden border border-cyan-500/30 bg-gradient-to-br from-[#0c1626] via-[#09111c] to-[#060a12] p-4 sm:p-7 shadow-[0_0_35px_rgba(6,182,212,0.18)] select-none group"
+              onMouseEnter={() => setIsSlidePaused(true)}
+              onMouseLeave={() => setIsSlidePaused(false)}
+              onTouchStart={() => setIsSlidePaused(true)}
+              onTouchEnd={() => setIsSlidePaused(false)}
+            >
+              {/* Lueur néon en haut et fond dynamique */}
               <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_12px_#00F0FF]" />
               <div className="absolute -top-10 -right-10 w-44 h-44 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
               <div className="absolute -bottom-10 left-10 w-36 h-36 bg-blue-600/10 rounded-full blur-2xl pointer-events-none" />
 
-              <div className="grid grid-cols-12 items-center gap-3 sm:gap-6 relative z-10">
-                {/* Colonne Gauche: Titre, New arrivals, Bouton Shop now */}
-                <div className="col-span-7 flex flex-col justify-center space-y-2.5 sm:space-y-3.5 text-right">
-                  <h2 className="text-sm sm:text-2xl font-black text-white leading-snug">
-                    أكبر تجمع للهواتف<br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400">
-                      والإلكترونيات
-                    </span>{' '}
-                    ف مكناس
-                  </h2>
+              {/* Navigation Arrows (Prev / Next) - Like WitAnime */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setCurrentSlide(prev => (prev - 1 + heroSlides.length) % heroSlides.length)
+                }}
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#070d18]/80 border border-cyan-500/30 text-cyan-300 hover:text-white hover:bg-cyan-950/80 hover:border-cyan-400 flex items-center justify-center backdrop-blur-md opacity-60 group-hover:opacity-100 transition-all shadow-md active:scale-90"
+                aria-label="Previous Slide"
+              >
+                <ChevronLeft size={16} />
+              </button>
 
-                  <div className="space-y-0.5">
-                    <span className="text-[10px] sm:text-xs font-mono font-bold tracking-wider text-cyan-400 uppercase block">
-                      NEW ARRIVALS:
-                    </span>
-                    <h3 className="text-base sm:text-2xl font-black text-white tracking-tight">
-                      S24 Series
-                    </h3>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setCurrentSlide(prev => (prev + 1) % heroSlides.length)
+                }}
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#070d18]/80 border border-cyan-500/30 text-cyan-300 hover:text-white hover:bg-cyan-950/80 hover:border-cyan-400 flex items-center justify-center backdrop-blur-md opacity-60 group-hover:opacity-100 transition-all shadow-md active:scale-90"
+                aria-label="Next Slide"
+              >
+                <ChevronRight size={16} />
+              </button>
+
+              {/* Active Slide Content */}
+              {heroSlides.map((slide, index) => {
+                if (index !== currentSlide) return null
+                return (
+                  <div
+                    key={slide.id}
+                    className="grid grid-cols-12 items-center gap-3 sm:gap-6 relative z-10 px-2 sm:px-6 animate-in fade-in duration-500"
+                  >
+                    {/* Colonne Gauche: Titre, New arrivals, Bouton Shop now */}
+                    <div className="col-span-7 flex flex-col justify-center space-y-2 sm:space-y-3 text-right">
+                      {/* Badge Promo */}
+                      <span className={`w-fit px-2 py-0.5 rounded-full border text-[9px] sm:text-[10px] font-mono font-bold tracking-wide uppercase ${slide.badgeStyle}`}>
+                        {slide.badge}
+                      </span>
+
+                      <h2 className="text-xs sm:text-2xl font-black text-white leading-snug line-clamp-2">
+                        {slide.title}
+                      </h2>
+
+                      <div className="space-y-0.5">
+                        <h3 className="text-base sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400 tracking-tight">
+                          {slide.series}
+                        </h3>
+                        <p className="text-[10px] sm:text-xs text-slate-300 line-clamp-1 sm:line-clamp-2">
+                          {slide.subtitle}
+                        </p>
+                      </div>
+
+                      <div className="pt-0.5 flex items-center gap-2 sm:gap-3 flex-wrap">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const found = produits.find(p => p.nom?.toLowerCase().includes(slide.searchKey))
+                            if (found) {
+                              setSelectedProduct(found)
+                            } else {
+                              setSearch(slide.searchKey)
+                            }
+                          }}
+                          className="px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-sky-600 hover:from-cyan-400 hover:to-sky-500 text-slate-950 font-black text-[11px] sm:text-xs shadow-[0_0_15px_rgba(6,182,212,0.4)] active:scale-95 transition-all flex items-center gap-1.5 w-fit"
+                        >
+                          <span>{slide.buttonText}</span>
+                          <ChevronRight size={13} className="stroke-[3]" />
+                        </button>
+
+                        <span className="text-[10px] sm:text-xs font-mono font-bold text-cyan-300 bg-cyan-950/60 px-2 py-1 rounded-lg border border-cyan-500/20">
+                          {slide.price}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Colonne Droite: Image du produit avec lueur */}
+                    <div className="col-span-5 relative flex items-center justify-center">
+                      <div className="relative w-full h-36 sm:h-52 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-cyan-400/10 rounded-full blur-xl scale-75" />
+                        <img
+                          src={slide.image}
+                          alt={slide.series}
+                          className="relative z-10 w-full h-full object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                    </div>
                   </div>
+                )
+              })}
 
-                  <div className="pt-0.5">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const s24 = produits.find(p => p.nom?.toLowerCase().includes('s24'))
-                        if (s24) {
-                          setSelectedProduct(s24)
-                        } else {
-                          setSearch('s24')
-                        }
-                      }}
-                      className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#0e2236] border border-cyan-400/40 hover:border-cyan-300 hover:bg-cyan-950/60 text-cyan-300 hover:text-white font-bold text-[11px] sm:text-xs shadow-[0_0_15px_rgba(6,182,212,0.25)] active:scale-95 transition-all flex items-center gap-1.5 w-fit group"
-                    >
-                      <span>Shop now</span>
-                      <ChevronRight size={13} className="text-cyan-400 group-hover:translate-x-0.5 transition-transform" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Colonne Droite: Image Samsung S24 Ultra avec S-Pen */}
-                <div className="col-span-5 relative flex items-center justify-center">
-                  <div className="relative w-full h-36 sm:h-52 flex items-center justify-center">
-                    <div className="absolute inset-0 bg-cyan-400/10 rounded-full blur-xl scale-75" />
-                    <img
-                      src="/images/s24-banner.webp"
-                      alt="Samsung Galaxy S24 Ultra"
-                      className="relative z-10 w-full h-full object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Carousel Indicators (Pill active + dots) */}
+              {/* Carousel Indicators / Pagination Pills - Clickable like WitAnime */}
               <div className="flex items-center justify-center gap-1.5 pt-3 relative z-10">
-                <span className="w-5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00F0FF]" />
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-700/80" />
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-700/80" />
+                {heroSlides.map((_, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setCurrentSlide(idx)}
+                    className={`transition-all duration-300 rounded-full cursor-pointer ${
+                      idx === currentSlide
+                        ? 'w-6 h-1.5 bg-cyan-400 shadow-[0_0_10px_#00F0FF]'
+                        : 'w-1.5 h-1.5 bg-slate-700 hover:bg-slate-500'
+                    }`}
+                    aria-label={`Slide ${idx + 1}`}
+                  />
+                ))}
               </div>
             </div>
 
