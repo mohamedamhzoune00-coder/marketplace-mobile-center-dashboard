@@ -305,48 +305,70 @@ export default function StoreFront() {
         {/* ==================== TAB: HOME ==================== */}
         {activeTab === 'home' && (
           <>
-            {/* HERO BANNER */}
-            <div className="relative rounded-2xl overflow-hidden border border-cyan-500/30 bg-gradient-to-br from-[#122138] via-[#0d1726] to-[#0a101d] p-5 sm:p-10 shadow-[0_0_25px_rgba(0,242,254,0.1)]">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-600/15 rounded-full blur-xl pointer-events-none" />
+            {/* HERO BANNER (S24 Series Banner - Style identique à l'image) */}
+            <div className="relative rounded-3xl overflow-hidden border border-cyan-500/30 bg-gradient-to-br from-[#0c1626] via-[#09111c] to-[#060a12] p-4 sm:p-7 shadow-[0_0_35px_rgba(6,182,212,0.18)]">
+              {/* Lueur néon en haut et fond */}
               <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_12px_#00F0FF]" />
+              <div className="absolute -top-10 -right-10 w-44 h-44 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-10 left-10 w-36 h-36 bg-blue-600/10 rounded-full blur-2xl pointer-events-none" />
 
-              <div className="relative z-10 space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-400/40 text-[10px] font-bold text-cyan-300 tracking-wide uppercase">
-                    MARCHÉ ÉLECTRONIQUE DE MEKNÈS
-                  </span>
-                  <span className="text-[10px] text-slate-400 flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3 text-emerald-400" /> موثوق 100%
-                  </span>
+              <div className="grid grid-cols-12 items-center gap-3 sm:gap-6 relative z-10">
+                {/* Colonne Gauche: Titre, New arrivals, Bouton Shop now */}
+                <div className="col-span-7 flex flex-col justify-center space-y-2.5 sm:space-y-3.5 text-right">
+                  <h2 className="text-sm sm:text-2xl font-black text-white leading-snug">
+                    أكبر تجمع للهواتف<br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-400">
+                      والإلكترونيات
+                    </span>{' '}
+                    ف مكناس
+                  </h2>
+
+                  <div className="space-y-0.5">
+                    <span className="text-[10px] sm:text-xs font-mono font-bold tracking-wider text-cyan-400 uppercase block">
+                      NEW ARRIVALS:
+                    </span>
+                    <h3 className="text-base sm:text-2xl font-black text-white tracking-tight">
+                      S24 Series
+                    </h3>
+                  </div>
+
+                  <div className="pt-0.5">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const s24 = produits.find(p => p.nom?.toLowerCase().includes('s24'))
+                        if (s24) {
+                          setSelectedProduct(s24)
+                        } else {
+                          setSearch('s24')
+                        }
+                      }}
+                      className="px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-[#0e2236] border border-cyan-400/40 hover:border-cyan-300 hover:bg-cyan-950/60 text-cyan-300 hover:text-white font-bold text-[11px] sm:text-xs shadow-[0_0_15px_rgba(6,182,212,0.25)] active:scale-95 transition-all flex items-center gap-1.5 w-fit group"
+                    >
+                      <span>Shop now</span>
+                      <ChevronRight size={13} className="text-cyan-400 group-hover:translate-x-0.5 transition-transform" />
+                    </button>
+                  </div>
                 </div>
 
-                <h1 className="text-xl sm:text-4xl font-black text-white leading-snug">
-                  أكبر تجمع لمتاجر{' '}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500">
-                    الهواتف والإلكترونيات
-                  </span>{' '}
-                  فـ مكناس
-                </h1>
-
-                <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
-                  تصفح أفضل عروض السامسونج، الآيفون والإكسسوارات مع ضمان المحلات المعتمدة بباب منصور.
-                </p>
-
-                <div className="flex items-center gap-2 pt-1">
-                  <button
-                    onClick={() => setSelectedCategory('all')}
-                    className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-bold text-xs shadow-[0_0_15px_rgba(0,242,254,0.4)] active:scale-95 transition-all flex items-center gap-1.5"
-                  >
-                    تسوق الآن <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
-                  <span className="text-[10px] text-slate-400 px-2 py-1 bg-slate-900/60 rounded border border-slate-700">
-                    {boutiques.length}+ محلات
-                  </span>
-                  <span className="text-[10px] text-slate-400 px-2 py-1 bg-slate-900/60 rounded border border-slate-700">
-                    {produits.length}+ منتوج
-                  </span>
+                {/* Colonne Droite: Image Samsung S24 Ultra avec S-Pen */}
+                <div className="col-span-5 relative flex items-center justify-center">
+                  <div className="relative w-full h-36 sm:h-52 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-cyan-400/10 rounded-full blur-xl scale-75" />
+                    <img
+                      src="/images/s24-banner.webp"
+                      alt="Samsung Galaxy S24 Ultra"
+                      className="relative z-10 w-full h-full object-contain drop-shadow-[0_10px_25px_rgba(0,0,0,0.7)] hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
                 </div>
+              </div>
+
+              {/* Carousel Indicators (Pill active + dots) */}
+              <div className="flex items-center justify-center gap-1.5 pt-3 relative z-10">
+                <span className="w-5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#00F0FF]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-700/80" />
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-700/80" />
               </div>
             </div>
 
